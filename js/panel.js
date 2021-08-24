@@ -1,3 +1,8 @@
+
+const DELAY_TIME = 5 * 1000;
+let list = [];
+
+
 const CD = chrome.devtools;
 
 const log = (...params) => CD.inspectedWindow.eval(`console.log(...${JSON.stringify(params)})`);
@@ -7,10 +12,10 @@ $.ajax({
     url: "https://proapi.azurewebsites.net/doc/getAvatarList?filename=components/icon/index.zh-CN.md&owner=ant-design&repo=ant-design",
     dataType: "json",
     success: function (data) {
-        log('success' + JSON.stringify(data));
+        // log('success' + JSON.stringify(data));
     },
     fail: function (error) {
-        log('error' + JSON.stringify(error));
+        // log('error' + JSON.stringify(error));
     }
 });
 
@@ -173,29 +178,36 @@ const statusText = {
     }
 }
 
-CD.network.onRequestFinished.addListener((...args) => {
-    const [{
+CD.network.onRequestFinished.addListener((res) => {
+
+    const {
         request,
         response
-    }] = args;
+    } = res;
 
-    //本事件 每一次请求都会触发，所以使用jq的append
-    $(".list").append(`<tr class="${response.status !== 200 ? 'red' : ''}">
-            <td class="method"><div>${request.method}</div></td>
-            <td class="url"><div>${request.url}</div></td>
-            <td class="status">
-                <span>${response.status}</span>
-            </td>
-            <td class="statusText">
-                <span class='word'>${statusText[response.status].word}</span>
-                <span class='desc'>${statusText[response.status].desc}</span>
-            </td>
-        </tr>`);
+    res.getContent(function (content) {
+        list.push({
+            url: request.url,
+            content
+        })
+        $(".list").append(`<tr>
+        <td>${request.url}</td>
+        <td></td>
+        <td>人生就像是一场修行</td>
+    </tr>`);
+    })
 });
 
-$("body").on("mouseenter", ".statusText .word", function () {
-    $(this).next().show();
-});
-$("body").on("mouseleave", ".statusText .word", function () {
-    $(this).next().hide();
-});
+function postList() {
+    log(list);
+    if (list.length > 0) {
+        $(".list").empty();
+        list = [];
+    }
+    setTimeout(() => {
+        postList();
+    }, DELAY_TIME)
+}
+
+postList();
+
