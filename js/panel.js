@@ -1,10 +1,19 @@
 const CD = chrome.devtools;
 
-//devtools中不认识console.log。使用自带的api inspectedWindow 来弄一个它认识的
 const log = (...params) => CD.inspectedWindow.eval(`console.log(...${JSON.stringify(params)})`);
 
-//服务器状态码对应文字 word 以及描述 desc
-// status对应文案 网上找的，如果有不对的，希望指出。
+$.ajax({
+    type: "GET",
+    url: "https://proapi.azurewebsites.net/doc/getAvatarList?filename=components/icon/index.zh-CN.md&owner=ant-design&repo=ant-design",
+    dataType: "json",
+    success: function (data) {
+        log('success' + JSON.stringify(data));
+    },
+    fail: function (error) {
+        log('error' + JSON.stringify(error));
+    }
+});
+
 const statusText = {
     "200": {
         word: "成功",
@@ -164,13 +173,11 @@ const statusText = {
     }
 }
 
-//注册回调函数，每一个http请求完成后，都会执行。
 CD.network.onRequestFinished.addListener((...args) => {
     const [{
         request,
         response
     }] = args;
-    // log(request);
 
     //本事件 每一次请求都会触发，所以使用jq的append
     $(".list").append(`<tr class="${response.status !== 200 ? 'red' : ''}">
