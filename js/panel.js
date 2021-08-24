@@ -201,7 +201,7 @@ CD.network.onRequestFinished.addListener((res) => {
 function postList() {
     log(list);
     if (list.length > 0) {
-        $(".list").empty();
+        // $(".list").empty();
         list = [];
     }
     setTimeout(() => {
