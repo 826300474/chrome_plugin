@@ -1,3 +1,4 @@
+const API_URL = "http://192.168.31.130:3000";
 const DELAY_TIME = 5 * 1000;
 let list = [];
 let _api = [];
@@ -72,7 +73,7 @@ CD.network.onRequestFinished.addListener((res) => {
 function getApi(){
     $.ajax({
         type: "GET",
-        url: "http://192.168.31.130:3000/api/index?href=" + pathname,
+        url: API_URL +"/api/index?href=" + pathname,
         dataType: "json",
         success: function (data) {
             if( data.data ){
@@ -119,7 +120,7 @@ function postList() {
         if( data.length > 0 ){
             $.ajax({
                 type: "POST",
-                url: "http://192.168.31.130:3000/api/index",
+                url: API_URL+"/api/index",
                 dataType: "json",
                 data:{
                     data:JSON.stringify(data)
