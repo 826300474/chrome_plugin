@@ -28,11 +28,13 @@ setInterval(() => {
             getApi();
             postList();
         }else{
-            if( origin!== result.origin || pathname !== (result.origin + result.pathname) ){
-                postList();
-                origin = result.origin;
-                pathname = result.origin + result.pathname;
-                getApi();
+            if( origin && pathname ){
+                if( origin !== result.origin || pathname !== (result.origin + result.pathname) ){
+                    postList();
+                    origin = result.origin;
+                    pathname = result.origin + result.pathname;
+                    getApi();
+                }
             }
         }
     });
