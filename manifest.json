@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
-  "name": "Chrome插件demo",
+  "name": "晓飞",
   "version": "1.0",
-  "description": "最简单的Chrome插件demo，需要快速做一个简单的插件时可以基于这个仓库开发",
+  "description": "一款chrome插件，可监听网页api接口，并将接口数据存入数据库",
   "author": "sxei",
   "devtools_page": "devtools.html",
   "permissions": []

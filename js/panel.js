@@ -1,4 +1,3 @@
-const API_URL = "http://192.168.31.130:3000";
 const DELAY_TIME = 5 * 1000;
 let list = [];
 let _api = [];
